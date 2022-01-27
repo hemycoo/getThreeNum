@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         qiongJu();
 //        isEqualsTest();
-        suanFa();
+//        suanFa();
     }
 
     /**
@@ -26,7 +26,7 @@ public class Main {
                     threeNum.setB(j);
                     threeNum.setC(k);
                     threeNumList.add(threeNum);
-                    System.out.println("a = " + threeNum.getA() + ", b = " + threeNum.getB() + ", c = " + threeNum.getC());
+//                    System.out.println("a = " + threeNum.getA() + ", b = " + threeNum.getB() + ", c = " + threeNum.getC());
                     sum++;
                 }
             }
@@ -44,7 +44,6 @@ public class Main {
         List<ThreeNum> trueThreeNumList = new ArrayList<>();
 
 
-
         int size = threeNumList.size();
         int newSize = 999999999;
         for (int i = 0; i < newSize; i++) {
@@ -58,7 +57,7 @@ public class Main {
                         continue;
                     }
                     trueThreeNumList.add(currentThreeNum);
-                    System.out.println("符合要求的三元数组为 " + currentThreeNum);
+//                    System.out.println("符合要求的三元数组为 " + currentThreeNum);
 
                     //若当前已经到这里，先跳出当前for循环
                     break;
@@ -73,7 +72,22 @@ public class Main {
                 }
             }
         }
-        System.out.println("符合要求的三元数组总数为 " + trueThreeNumList.size());
+//        System.out.println("符合要求的三元数组总数为 " + trueThreeNumList.size());
+
+        //此处去除第一与第三位数相等的情况
+        for (int i = 0; i < trueThreeNumList.size(); i++) {
+            for (int j = i + 1; j < trueThreeNumList.size();) {
+                //若不相等，则删除不符合要求的
+                if (!isEquals(trueThreeNumList.get(i), trueThreeNumList.get(j))) {
+                    trueThreeNumList.remove(j);
+                    continue;
+                }
+                j++;
+            }
+        }
+        System.out.println("结果为 " + trueThreeNumList);
+        System.out.println("数量为 "+ trueThreeNumList.size());
+
         return trueThreeNumList;
     }
 
@@ -97,6 +111,8 @@ public class Main {
             resultList.add(threeNum);
         }
         System.out.println("去重后的集合大小" + resultList.size());
+
+
         return resultList;
     }
 
@@ -104,7 +120,7 @@ public class Main {
      * 1.1.3 输入列总数，数值 获取行号 待优化为不同的矩阵适用 目前4*5
      */
     public static int getRow(int line, int data) {
-        int rowNum = data / (line + 1) + 1;
+        int rowNum = (data / line) + 1;
         if (data % line == 0) {
             rowNum = data / line;
         }
@@ -147,7 +163,7 @@ public class Main {
                     flag_a_3 = 1;
                 }
             } else {
-                flag_a_3 = 1;
+                flag_a_2 = 1;
             }
         } else {
             flag_a_1 = 1;
@@ -211,12 +227,12 @@ public class Main {
     public static void isEqualsTest() {
         ThreeNum a = new ThreeNum();
         a.setA(5);
-        a.setB(3);
-        a.setC(2);
+        a.setB(6);
+        a.setC(19);
         ThreeNum b = new ThreeNum();
-        b.setA(1);
-        b.setB(2);
-        b.setC(3);
+        b.setA(14);
+        b.setB(5);
+        b.setC(6);
         boolean result = isEquals(a, b);
         System.out.println(result);
     }
