@@ -1,7 +1,5 @@
 package com.hemycoo.getnum;
 
-import jdk.nashorn.internal.ir.Flags;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +7,7 @@ public class Main {
     public static void main(String[] args) {
         qiongJu();
 //        isEqualsTest();
+        suanFa();
     }
 
     /**
@@ -16,13 +15,12 @@ public class Main {
      */
     public static void qiongJu() {
         //
-        //int[] sumNUm = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-        int[] sumNUm = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+        int[] sumNum = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
         List<ThreeNum> threeNumList = new ArrayList<>();
         int sum = 0;
-        for (int i : sumNUm) {
-            for (int j : sumNUm) {
-                for (int k : sumNUm) {
+        for (int i : sumNum) {
+            for (int j : sumNum) {
+                for (int k : sumNum) {
                     ThreeNum threeNum = new ThreeNum();
                     threeNum.setA(i);
                     threeNum.setB(j);
@@ -33,7 +31,8 @@ public class Main {
                 }
             }
         }
-        quChong(threeNumList);
+        List<ThreeNum> threeNumQuChong = quChuSameRowAndLineElement(threeNumList);
+        quChong(threeNumQuChong);
         System.out.println("总数为 " + sum);
     }
 
@@ -43,23 +42,84 @@ public class Main {
     public static List<ThreeNum> quChong(List<ThreeNum> threeNumList) {
         List<ThreeNum> falseThreeNumList = new ArrayList<>();
         List<ThreeNum> trueThreeNumList = new ArrayList<>();
+
+
+
         int size = threeNumList.size();
-        for (int i = 0; i < size; i++) {
+        int newSize = 999999999;
+        for (int i = 0; i < newSize; i++) {
             ThreeNum currentThreeNum = threeNumList.get(i);
-            for (int j = i + 1; j < size; j++) {
+            for (int j = i + 1; j < newSize; ) {
                 ThreeNum nextThreeNum = threeNumList.get(j);
                 boolean result = isEquals(currentThreeNum, nextThreeNum);
                 // fixme 此处明日需改进 比较一轮完毕都不重复才能算一个
                 if (result) {
+                    if (trueThreeNumList.contains(currentThreeNum)) {
+                        continue;
+                    }
                     trueThreeNumList.add(currentThreeNum);
                     System.out.println("符合要求的三元数组为 " + currentThreeNum);
+
+                    //若当前已经到这里，先跳出当前for循环
+                    break;
+
                 } else {
+                    threeNumList.remove(j);
+                    newSize = threeNumList.size();
+                    if (falseThreeNumList.contains(currentThreeNum)) {
+                        continue;
+                    }
                     falseThreeNumList.add(currentThreeNum);
                 }
             }
         }
         System.out.println("符合要求的三元数组总数为 " + trueThreeNumList.size());
         return trueThreeNumList;
+    }
+
+    /**
+     * 1.1.2 去除同集合中相同行和列的3元集合
+     * 3个数中有两个或3个在相同的行，或者相同的列 则去除
+     */
+    public static List<ThreeNum> quChuSameRowAndLineElement(List<ThreeNum> threeNumList) {
+        List<ThreeNum> resultList = new ArrayList<>();
+        for (ThreeNum threeNum : threeNumList) {
+            int aRow = getRow(5, threeNum.getA());
+            int aLine = getLine(5, threeNum.getA());
+            int bRow = getRow(5, threeNum.getB());
+            int bLine = getLine(5, threeNum.getB());
+            int cRow = getRow(5, threeNum.getC());
+            int cLine = getLine(5, threeNum.getC());
+
+            if (aRow == bRow || aRow == cRow || bRow == cRow || aLine == bLine || aLine == cLine || bLine == cLine) {
+                continue;
+            }
+            resultList.add(threeNum);
+        }
+        System.out.println("去重后的集合大小" + resultList.size());
+        return resultList;
+    }
+
+    /**
+     * 1.1.3 输入列总数，数值 获取行号 待优化为不同的矩阵适用 目前4*5
+     */
+    public static int getRow(int line, int data) {
+        int rowNum = data / (line + 1) + 1;
+        if (data % line == 0) {
+            rowNum = data / line;
+        }
+        return rowNum;
+    }
+
+    /**
+     * 1.1.4 获取列总数，数值 获取列号 待优化为不同的矩阵适用 目前4*5
+     */
+    public static int getLine(int line, int data) {
+        int lineNum = data % line;
+        if (lineNum == 0) {
+            lineNum = line;
+        }
+        return lineNum;
     }
 
     /**
@@ -164,22 +224,25 @@ public class Main {
     /**
      * 2 算法
      */
-    public void suanFa() {
+    public static void suanFa() {
         int[] firstRow = {1, 2, 3, 4, 5};
         int[] secondRow = {6, 7, 8, 9, 10};
         int[] thirdRow = {11, 12, 13, 14, 15};
         int[] fourthRow = {16, 17, 18, 19, 20};
         int[] fifthRow = {21, 22, 23, 24, 25};
-        int[] sumNUm = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25};
+        int[] sumNUm = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
         for (int i : sumNUm) {
             System.out.println(i);
             int oneRow = i / 6 + 1;
-            System.out.println("第一个数所在行为 " + oneRow);
+            System.out.println(i + " 所在行为 " + oneRow);
+            int row = getRow(5, i);
+            System.out.println(i + " 所在********行为 " + row);
             int oneLine = i % 5;
             if (oneLine == 0) {
                 oneLine = 5;
             }
-            System.out.println("第一个数列在行为 " + oneLine);
+            System.out.println(i + " 所在列为 " + oneLine);
+            System.out.println(i + " 所在********列为 " + getLine(5, i));
             if (oneRow == 1) {
 
             }
