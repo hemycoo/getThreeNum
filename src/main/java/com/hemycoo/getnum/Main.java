@@ -45,34 +45,45 @@ public class Main {
         List<ThreeNum> falseThreeNumList = new ArrayList<>();
         List<ThreeNum> trueThreeNumList = new ArrayList<>();
 
-
         int size = threeNumList.size();
         int newSize = 999999999;
         for (int i = 0; i < newSize; i++) {
+            if (i >= newSize -1 ) {
+                break;
+            }
             ThreeNum currentThreeNum = threeNumList.get(i);
-            for (int j = i + 1; j < newSize; ) {
+
+            // 标志位用来判断当前3元集合与剩下的所有3元集合是否有相同的两个及以上的相同元素 0为无 1为有 一直为0 则加入最后的集合
+            int flag = 0;
+
+            for (int j = i + 1; j < newSize; j++) {
+                newSize = threeNumList.size();
                 ThreeNum nextThreeNum = threeNumList.get(j);
                 boolean result = isEquals(currentThreeNum, nextThreeNum);
-                // fixme 此处明日需改进 比较一轮完毕都不重复才能算一个
+
                 if (result) {
                     if (trueThreeNumList.contains(currentThreeNum)) {
                         continue;
                     }
-                    trueThreeNumList.add(currentThreeNum);
+                    if (flag == 1) {
+                        break;
+                    }
 //                    System.out.println("符合要求的三元数组为 " + currentThreeNum);
-
-                    //若当前已经到这里，先跳出当前for循环
-                    break;
-
                 } else {
+                    flag = 1;
                     threeNumList.remove(j);
-                    newSize = threeNumList.size();
+
                     if (falseThreeNumList.contains(currentThreeNum)) {
                         continue;
                     }
                     falseThreeNumList.add(currentThreeNum);
                 }
             }
+
+                trueThreeNumList.add(currentThreeNum);
+            //比较完毕 flag一直为0 加入最后的集合
+//            if (flag == 0) {
+//            }
         }
 //        System.out.println("符合要求的三元数组总数为 " + trueThreeNumList.size());
 
@@ -94,10 +105,232 @@ public class Main {
     }
 
     /**
-     * 1.1 穷举法-去重 测试
+     * 1.1 穷举法-去重 测试 不同行列 都为通过的列
+     * 测试元素 1,7,13 1,8,12 1,9,15 1,10,14 2,6,13 2,8,11 2,9,16  2,10,18 3,6,12  3,7,11  3,9,17 3,14,16 4,6,15 4,7,16 4,8,17 4,10,11 5,6,14 5,7,18 5,9,11  5,8,16
      */
     @Test
     public void quChongTest() {
+        List<ThreeNum> threeNumList = new ArrayList<>();
+
+        ThreeNum threeNumA = new ThreeNum();
+        threeNumA.setA(1);
+        threeNumA.setB(7);
+        threeNumA.setC(13);
+        threeNumList.add(threeNumA);
+
+        ThreeNum threeNumB = new ThreeNum();
+        threeNumB.setA(1);
+        threeNumB.setB(8);
+        threeNumB.setC(12);
+        threeNumList.add(threeNumB);
+
+        ThreeNum threeNumC = new ThreeNum();
+        threeNumC.setA(1);
+        threeNumC.setB(9);
+        threeNumC.setC(15);
+        threeNumList.add(threeNumC);
+
+        ThreeNum threeNumD = new ThreeNum();
+        threeNumD.setA(1);
+        threeNumD.setB(10);
+        threeNumD.setC(14);
+        threeNumList.add(threeNumD);
+
+        ThreeNum threeNumE = new ThreeNum();
+        threeNumE.setA(2);
+        threeNumE.setB(6);
+        threeNumE.setC(13);
+        threeNumList.add(threeNumE);
+
+        ThreeNum threeNumF = new ThreeNum();
+        threeNumF.setA(2);
+        threeNumF.setB(8);
+        threeNumF.setC(11);
+        threeNumList.add(threeNumF);
+
+        ThreeNum threeNumG = new ThreeNum();
+        threeNumG.setA(2);
+        threeNumG.setB(9);
+        threeNumG.setC(16);
+        threeNumList.add(threeNumG);
+
+        ThreeNum threeNumH = new ThreeNum();
+        threeNumH.setA(2);
+        threeNumH.setB(10);
+        threeNumH.setC(18);
+        threeNumList.add(threeNumH);
+
+        ThreeNum threeNumI0 = new ThreeNum();
+        threeNumI0.setA(3);
+        threeNumI0.setB(6);
+        threeNumI0.setC(12);
+        threeNumList.add(threeNumI0);
+
+        ThreeNum threeNumI = new ThreeNum();
+        threeNumI.setA(3);
+        threeNumI.setB(7);
+        threeNumI.setC(11);
+        threeNumList.add(threeNumI);
+
+        ThreeNum threeNumJ = new ThreeNum();
+        threeNumJ.setA(3);
+        threeNumJ.setB(9);
+        threeNumJ.setC(17);
+        threeNumList.add(threeNumJ);
+
+        ThreeNum threeNumJ1 = new ThreeNum();
+        threeNumJ1.setA(3);
+        threeNumJ1.setB(14);
+        threeNumJ1.setC(16);
+        threeNumList.add(threeNumJ1);
+
+        ThreeNum threeNumK = new ThreeNum();
+        threeNumK.setA(4);
+        threeNumK.setB(6);
+        threeNumK.setC(15);
+        threeNumList.add(threeNumK);
+
+        ThreeNum threeNumL = new ThreeNum();
+        threeNumL.setA(4);
+        threeNumL.setB(7);
+        threeNumL.setC(16);
+        threeNumList.add(threeNumL);
+
+        ThreeNum threeNumM = new ThreeNum();
+        threeNumM.setA(4);
+        threeNumM.setB(8);
+        threeNumM.setC(17);
+        threeNumList.add(threeNumM);
+
+        ThreeNum threeNumM1 = new ThreeNum();
+        threeNumM1.setA(4);
+        threeNumM1.setB(10);
+        threeNumM1.setC(11);
+        threeNumList.add(threeNumM1);
+
+        ThreeNum threeNumN = new ThreeNum();
+        threeNumN.setA(5);
+        threeNumN.setB(6);
+        threeNumN.setC(14);
+        threeNumList.add(threeNumN);
+
+        ThreeNum threeNumo = new ThreeNum();
+        threeNumo.setA(5);
+        threeNumo.setB(7);
+        threeNumo.setC(18);
+        threeNumList.add(threeNumo);
+
+        ThreeNum threeNumP = new ThreeNum();
+        threeNumP.setA(5);
+        threeNumP.setB(9);
+        threeNumP.setC(11);
+        threeNumList.add(threeNumP);
+
+        ThreeNum threeNumQ = new ThreeNum();
+        threeNumQ.setA(5);
+        threeNumQ.setB(8);
+        threeNumQ.setC(16);
+        threeNumList.add(threeNumQ);
+
+        List<ThreeNum> resultThreeNumList = quChong(threeNumList);
+        System.out.println(resultThreeNumList.size());
+
+    }
+
+    /**
+     * 1.1.2.1 穷举法-去重 测试 不同行列 有问题的案例
+     * 测试元素 1,7,13 1，7，15 1，7，19 1,8,12 1,9,15 1,10,14 2,6,13 2,8,11 2,9,16  2,10,18 3,6,12  3,7,11  3,9,17 3,14,16
+     */
+    @Test
+    public void quChongTest2() {
+        List<ThreeNum> threeNumList = new ArrayList<>();
+
+        ThreeNum threeNumA = new ThreeNum();
+        threeNumA.setA(1);
+        threeNumA.setB(7);
+        threeNumA.setC(13);
+        threeNumList.add(threeNumA);
+
+        ThreeNum threeNumA1 = new ThreeNum();
+        threeNumA1.setA(1);
+        threeNumA1.setB(7);
+        threeNumA1.setC(15);
+        threeNumList.add(threeNumA1);
+
+        ThreeNum threeNumA2 = new ThreeNum();
+        threeNumA2.setA(1);
+        threeNumA2.setB(7);
+        threeNumA2.setC(19);
+        threeNumList.add(threeNumA2);
+
+        ThreeNum threeNumB = new ThreeNum();
+        threeNumB.setA(1);
+        threeNumB.setB(8);
+        threeNumB.setC(12);
+        threeNumList.add(threeNumB);
+
+        ThreeNum threeNumC = new ThreeNum();
+        threeNumC.setA(1);
+        threeNumC.setB(9);
+        threeNumC.setC(15);
+        threeNumList.add(threeNumC);
+
+        ThreeNum threeNumD = new ThreeNum();
+        threeNumD.setA(1);
+        threeNumD.setB(10);
+        threeNumD.setC(14);
+        threeNumList.add(threeNumD);
+
+        ThreeNum threeNumE = new ThreeNum();
+        threeNumE.setA(2);
+        threeNumE.setB(6);
+        threeNumE.setC(13);
+        threeNumList.add(threeNumE);
+
+        ThreeNum threeNumF = new ThreeNum();
+        threeNumF.setA(2);
+        threeNumF.setB(8);
+        threeNumF.setC(11);
+        threeNumList.add(threeNumF);
+
+        ThreeNum threeNumG = new ThreeNum();
+        threeNumG.setA(2);
+        threeNumG.setB(9);
+        threeNumG.setC(16);
+        threeNumList.add(threeNumG);
+
+        ThreeNum threeNumH = new ThreeNum();
+        threeNumH.setA(2);
+        threeNumH.setB(10);
+        threeNumH.setC(18);
+        threeNumList.add(threeNumH);
+
+        ThreeNum threeNumI0 = new ThreeNum();
+        threeNumI0.setA(3);
+        threeNumI0.setB(6);
+        threeNumI0.setC(12);
+        threeNumList.add(threeNumI0);
+
+        ThreeNum threeNumI = new ThreeNum();
+        threeNumI.setA(3);
+        threeNumI.setB(7);
+        threeNumI.setC(11);
+        threeNumList.add(threeNumI);
+
+        ThreeNum threeNumJ = new ThreeNum();
+        threeNumJ.setA(3);
+        threeNumJ.setB(9);
+        threeNumJ.setC(17);
+        threeNumList.add(threeNumJ);
+
+        ThreeNum threeNumJ1 = new ThreeNum();
+        threeNumJ1.setA(3);
+        threeNumJ1.setB(14);
+        threeNumJ1.setC(16);
+        threeNumList.add(threeNumJ1);
+
+        List<ThreeNum> resultThreeNumList = quChong(threeNumList);
+        System.out.println(resultThreeNumList.size());
 
     }
 

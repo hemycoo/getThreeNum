@@ -31,6 +31,6 @@ public class ThreeNum {
 
     @Override
     public String toString() {
-        return "{" + a + "," + b + ", " + C + '}';
+        return '\n' + "{" + a + "," + b + ", " + C + '}';
     }
 }
