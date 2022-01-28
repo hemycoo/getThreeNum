@@ -1,5 +1,7 @@
 package com.hemycoo.getnum;
 
+import org.testng.annotations.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +78,7 @@ public class Main {
 
         //此处去除第一与第三位数相等的情况
         for (int i = 0; i < trueThreeNumList.size(); i++) {
-            for (int j = i + 1; j < trueThreeNumList.size();) {
+            for (int j = i + 1; j < trueThreeNumList.size(); ) {
                 //若不相等，则删除不符合要求的
                 if (!isEquals(trueThreeNumList.get(i), trueThreeNumList.get(j))) {
                     trueThreeNumList.remove(j);
@@ -86,13 +88,21 @@ public class Main {
             }
         }
         System.out.println("结果为 " + trueThreeNumList);
-        System.out.println("数量为 "+ trueThreeNumList.size());
+        System.out.println("数量为 " + trueThreeNumList.size());
 
         return trueThreeNumList;
     }
 
     /**
-     * 1.1.2 去除同集合中相同行和列的3元集合
+     * 1.1 穷举法-去重 测试
+     */
+    @Test
+    public void quChongTest() {
+
+    }
+
+    /**
+     * 1.1.2 去除同集合中相同行和列的3元集合 测试通过
      * 3个数中有两个或3个在相同的行，或者相同的列 则去除
      */
     public static List<ThreeNum> quChuSameRowAndLineElement(List<ThreeNum> threeNumList) {
@@ -117,7 +127,105 @@ public class Main {
     }
 
     /**
-     * 1.1.3 输入列总数，数值 获取行号 待优化为不同的矩阵适用 目前4*5
+     * 1.1.2 TEST 去除同集合中相同行和列的3元集合 边界测试
+     * 3个数中有两个或3个在相同的行，或者相同的列 则去除
+     * 设置的值为
+     * 相同行 1，2，3    1，2，8  6，11，12  6，12，13   19，20，5   8，9，10
+     * 相同列 7，11，16  3，8，13 5，10，15  10，15，20  2，7，19
+     * 相同行 相同列 11，12，13
+     * 正常行列 5 ，8， 16
+     */
+    @Test
+    public void quChuSameRowAndLineElementTest() {
+        List<ThreeNum> threeNumList = new ArrayList<>();
+        ThreeNum threeNumA = new ThreeNum();
+        threeNumA.setA(1);
+        threeNumA.setB(2);
+        threeNumA.setC(3);
+        threeNumList.add(threeNumA);
+
+        ThreeNum threeNumB = new ThreeNum();
+        threeNumB.setA(1);
+        threeNumB.setB(2);
+        threeNumB.setC(8);
+        threeNumList.add(threeNumB);
+
+        ThreeNum threeNumC = new ThreeNum();
+        threeNumC.setA(6);
+        threeNumC.setB(11);
+        threeNumC.setC(12);
+        threeNumList.add(threeNumC);
+
+        ThreeNum threeNumD = new ThreeNum();
+        threeNumD.setA(6);
+        threeNumD.setB(12);
+        threeNumD.setC(13);
+        threeNumList.add(threeNumD);
+
+        ThreeNum threeNumE = new ThreeNum();
+        threeNumE.setA(5);
+        threeNumE.setB(19);
+        threeNumE.setC(20);
+        threeNumList.add(threeNumE);
+
+        ThreeNum threeNumF = new ThreeNum();
+        threeNumF.setA(8);
+        threeNumF.setB(9);
+        threeNumF.setC(10);
+        threeNumList.add(threeNumF);
+
+        ThreeNum threeNumG = new ThreeNum();
+        threeNumG.setA(7);
+        threeNumG.setB(11);
+        threeNumG.setC(16);
+        threeNumList.add(threeNumG);
+
+        ThreeNum threeNumH = new ThreeNum();
+        threeNumH.setA(3);
+        threeNumH.setB(8);
+        threeNumH.setC(13);
+        threeNumList.add(threeNumH);
+
+        ThreeNum threeNumI = new ThreeNum();
+        threeNumI.setA(5);
+        threeNumI.setB(10);
+        threeNumI.setC(15);
+        threeNumList.add(threeNumI);
+
+        ThreeNum threeNumJ = new ThreeNum();
+        threeNumJ.setA(10);
+        threeNumJ.setB(15);
+        threeNumJ.setC(20);
+        threeNumList.add(threeNumJ);
+
+        ThreeNum threeNumK = new ThreeNum();
+        threeNumK.setA(2);
+        threeNumK.setB(7);
+        threeNumK.setC(19);
+        threeNumList.add(threeNumK);
+
+        ThreeNum threeNumL = new ThreeNum();
+        threeNumL.setA(11);
+        threeNumL.setB(12);
+        threeNumL.setC(13);
+        threeNumList.add(threeNumL);
+
+        ThreeNum threeNumM = new ThreeNum();
+        threeNumM.setA(5);
+        threeNumM.setB(8);
+        threeNumM.setC(16);
+        threeNumList.add(threeNumM);
+
+        List<ThreeNum> threeNums = quChuSameRowAndLineElement(threeNumList);
+        if (threeNums.size() == 1 && threeNums.get(0).getA() == 5 && threeNums.get(0).getB() == 8 && threeNums.get(0).getC() == 16) {
+            System.out.println("yes");
+        } else {
+            System.out.println("false");
+        }
+    }
+
+    /**
+     * 1.1.3 输入列总数，数值 获取行号 待优化为不同的矩阵适用 目前4*5 测试通过
      */
     public static int getRow(int line, int data) {
         int rowNum = (data / line) + 1;
@@ -128,7 +236,7 @@ public class Main {
     }
 
     /**
-     * 1.1.4 获取列总数，数值 获取列号 待优化为不同的矩阵适用 目前4*5
+     * 1.1.4 获取列总数，数值 获取列号 待优化为不同的矩阵适用 目前4*5 测试通过
      */
     public static int getLine(int line, int data) {
         int lineNum = data % line;
@@ -139,7 +247,7 @@ public class Main {
     }
 
     /**
-     * 1.2 穷举法-去重-比较两个对象中的两个属性是否相等 符合要求返回true 不符合返回false
+     * 1.2 穷举法-去重-比较两个对象中的两个属性是否相等 符合要求返回true 不符合返回false 测试通过
      * a.A不等于b中的任何一个元素，同时a.B不等于b中的任何一个元素---符合要求
      * a.A不等于b中的任何一个元素，同时a.C不等于b中的任何一个元素---符合要求
      * a.B不等于b中的任何一个元素，同时a.C不等于b中的任何一个元素---符合要求
@@ -223,18 +331,131 @@ public class Main {
 
     /**
      * 1.3 穷举法-去重-比较两个对象中的两个属性是否相等 测试
+     * 前两位相同 1，7，13与1，7，19        4，10，13与4，10，17
+     * 第一位与第三位相同 2，8，14与2.16.14  3,9,17与3，13，17
+     * 第2，3位相同 4，7，16与14，7，16     5，9，11与20，9，11
+     * 正确的 5，8，16 与 5，7，18
      */
-    public static void isEqualsTest() {
-        ThreeNum a = new ThreeNum();
-        a.setA(5);
-        a.setB(6);
-        a.setC(19);
-        ThreeNum b = new ThreeNum();
-        b.setA(14);
-        b.setB(5);
-        b.setC(6);
-        boolean result = isEquals(a, b);
-        System.out.println(result);
+    @Test
+    public void isEqualsTest() {
+        ThreeNum a1 = new ThreeNum();
+        a1.setA(1);
+        a1.setB(7);
+        a1.setC(13);
+        ThreeNum b1 = new ThreeNum();
+        b1.setA(1);
+        b1.setB(7);
+        b1.setC(19);
+        boolean result1 = isEquals(a1, b1);
+        System.out.println("1，7，13与1，7，19 期望为false");
+        if (result1) {
+            System.out.println("1，7，13与1，7，19 true");
+        } else {
+            System.out.println("1，7，13与1，7，19 false");
+
+        }
+
+        ThreeNum a2 = new ThreeNum();
+        a2.setA(4);
+        a2.setB(10);
+        a2.setC(13);
+        ThreeNum b2 = new ThreeNum();
+        b2.setA(4);
+        b2.setB(10);
+        b2.setC(17);
+        boolean result2 = isEquals(a2, b2);
+        System.out.println("4，10，13与4，10，17 期望为false");
+        if (result2) {
+            System.out.println("4，10，13与4，10，17 true");
+        } else {
+            System.out.println("4，10，13与4，10，17 false");
+
+        }
+
+        ThreeNum a3 = new ThreeNum();
+        a3.setA(2);
+        a3.setB(8);
+        a3.setC(14);
+        ThreeNum b3 = new ThreeNum();
+        b3.setA(2);
+        b3.setB(16);
+        b3.setC(14);
+        boolean result3 = isEquals(a3, b3);
+        System.out.println("2，8，14与2.16.14 期望为false");
+        if (result3) {
+            System.out.println("2，8，14与2.16.14 true");
+        } else {
+            System.out.println("2，8，14与2.16.14 false");
+
+        }
+
+        ThreeNum a4 = new ThreeNum();
+        a4.setA(3);
+        a4.setB(9);
+        a4.setC(17);
+        ThreeNum b4 = new ThreeNum();
+        b4.setA(3);
+        b4.setB(13);
+        b4.setC(17);
+        boolean result4 = isEquals(a4, b4);
+        System.out.println("3,9,17与3，13，17 期望为false");
+        if (result4) {
+            System.out.println("3,9,17与3，13，17 true");
+        } else {
+            System.out.println("3,9,17与3，13，17 false");
+
+        }
+
+        ThreeNum a5 = new ThreeNum();
+        a5.setA(4);
+        a5.setB(7);
+        a5.setC(16);
+        ThreeNum b5 = new ThreeNum();
+        b5.setA(14);
+        b5.setB(7);
+        b5.setC(16);
+        boolean result5 = isEquals(a5, b5);
+        System.out.println("4，7，16与14，7，16 期望为false");
+        if (result5) {
+            System.out.println("4，7，16与14，7，16 true");
+        } else {
+            System.out.println("4，7，16与14，7，16 false");
+
+        }
+
+        ThreeNum a6 = new ThreeNum();
+        a6.setA(5);
+        a6.setB(9);
+        a6.setC(11);
+        ThreeNum b6 = new ThreeNum();
+        b6.setA(20);
+        b6.setB(9);
+        b6.setC(11);
+        boolean result6 = isEquals(a6, b6);
+        System.out.println("5，9，11与20，9，11 期望为false");
+        if (result6) {
+            System.out.println("5，9，11与20，9，11 true");
+        } else {
+            System.out.println("5，9，11与20，9，11 false");
+
+        }
+
+        ThreeNum a7 = new ThreeNum();
+        a7.setA(5);
+        a7.setB(8);
+        a7.setC(16);
+        ThreeNum b7 = new ThreeNum();
+        b7.setA(5);
+        b7.setB(7);
+        b7.setC(18);
+        boolean result7 = isEquals(a7, b7);
+        System.out.println("5，8，16 与 5，7，18 期望为true");
+        if (result7) {
+            System.out.println("5，8，16 与 5，7，18 true");
+        } else {
+            System.out.println("5，8，16 与 5，7，18 false");
+
+        }
     }
 
     /**
