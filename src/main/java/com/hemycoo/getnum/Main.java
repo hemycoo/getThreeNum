@@ -45,7 +45,7 @@ public class Main {
         List<ThreeNum> falseThreeNumList = new ArrayList<>();
         List<ThreeNum> trueThreeNumList = new ArrayList<>();
 
-        int size = threeNumList.size();
+//        int size = threeNumList.size();
         int newSize = 999999999;
         for (int i = 0; i < newSize; i++) {
             if (i >= newSize -1 ) {
@@ -53,24 +53,18 @@ public class Main {
             }
             ThreeNum currentThreeNum = threeNumList.get(i);
 
-            // 标志位用来判断当前3元集合与剩下的所有3元集合是否有相同的两个及以上的相同元素 0为无 1为有 一直为0 则加入最后的集合
-            int flag = 0;
-
-            for (int j = i + 1; j < newSize; j++) {
+            for (int j = i + 1; j < newSize; ) {
                 newSize = threeNumList.size();
                 ThreeNum nextThreeNum = threeNumList.get(j);
                 boolean result = isEquals(currentThreeNum, nextThreeNum);
 
                 if (result) {
+                    // 不去除元素 j应该++ 让索引往后走
+                    j++;
                     if (trueThreeNumList.contains(currentThreeNum)) {
                         continue;
                     }
-                    if (flag == 1) {
-                        break;
-                    }
-//                    System.out.println("符合要求的三元数组为 " + currentThreeNum);
                 } else {
-                    flag = 1;
                     threeNumList.remove(j);
 
                     if (falseThreeNumList.contains(currentThreeNum)) {
@@ -79,29 +73,9 @@ public class Main {
                     falseThreeNumList.add(currentThreeNum);
                 }
             }
-
-                trueThreeNumList.add(currentThreeNum);
-            //比较完毕 flag一直为0 加入最后的集合
-//            if (flag == 0) {
-//            }
         }
-//        System.out.println("符合要求的三元数组总数为 " + trueThreeNumList.size());
-
-        //此处去除第一与第三位数相等的情况
-        for (int i = 0; i < trueThreeNumList.size(); i++) {
-            for (int j = i + 1; j < trueThreeNumList.size(); ) {
-                //若不相等，则删除不符合要求的
-                if (!isEquals(trueThreeNumList.get(i), trueThreeNumList.get(j))) {
-                    trueThreeNumList.remove(j);
-                    continue;
-                }
-                j++;
-            }
-        }
-        System.out.println("结果为 " + trueThreeNumList);
-        System.out.println("数量为 " + trueThreeNumList.size());
-
-        return trueThreeNumList;
+        System.out.println("符合要求的三元数组总数为 " + trueThreeNumList.size());
+        return threeNumList;
     }
 
     /**
@@ -239,7 +213,7 @@ public class Main {
 
     /**
      * 1.1.2.1 穷举法-去重 测试 不同行列 有问题的案例
-     * 测试元素 1,7,13 1，7，15 1，7，19 1,8,12 1,9,15 1,10,14 2,6,13 2,8,11 2,9,16  2,10,18 3,6,12  3,7,11  3,9,17 3,14,16
+     * 测试元素 1,7,13 1，7，15 1，7，19 1，8，19 1,8,12 1,9,15 1,10,14 2,6,13 2,8,11 2,9,16  2,10,18 3,6,12  3,7,11  3,9,17 3,14,16
      */
     @Test
     public void quChongTest2() {
@@ -262,6 +236,12 @@ public class Main {
         threeNumA2.setB(7);
         threeNumA2.setC(19);
         threeNumList.add(threeNumA2);
+
+        ThreeNum threeNumA3 = new ThreeNum();
+        threeNumA3.setA(1);
+        threeNumA3.setB(8);
+        threeNumA3.setC(19);
+        threeNumList.add(threeNumA3);
 
         ThreeNum threeNumB = new ThreeNum();
         threeNumB.setA(1);
